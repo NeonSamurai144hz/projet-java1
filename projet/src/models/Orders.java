@@ -3,12 +3,12 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Order {
+public class Orders {
     private int orderNumber;
     private List<Dishes> dishes;
     private int total;
     
-    public Order(int orderNumber) {
+    public Orders(int orderNumber) {
         this.orderNumber = orderNumber;
         this.dishes = new ArrayList<>();
         this.total = 0;
@@ -42,12 +42,12 @@ public class Order {
         return sb.toString();
     }
     
-    public static Order fromFileString(String line) {
+    public static Orders fromFileString(String line) {
         // Example: Order:1|Pizza,12;Salad,8|20
         String data = line.substring("Order:".length());
         String[] parts = data.split("\\|");
         int orderNumber = Integer.parseInt(parts[0].trim());
-        Order order = new Order(orderNumber);
+        Orders order = new Orders(orderNumber);
         String dishData = parts[1].trim();
         if (!dishData.isEmpty()) {
             String[] dishEntries = dishData.split(";");
@@ -55,7 +55,7 @@ public class Order {
                 String[] dishParts = entry.split(",");
                 String dishName = dishParts[0].trim();
                 int dishPrice = Integer.parseInt(dishParts[1].trim());
-                Dishes dish = new Dish(dishName, dishPrice);
+                Dishes dish = new Dishes(dishName, dishPrice);
                 order.addDish(dish);
             }
         }

@@ -8,23 +8,14 @@ public class Main {
 }
 
 
-        // Interface myInterface = Interface.getInterface();
-        
 
 
-        // employee2.setDepartment("Accounting");
-        // employee2.setPosition("Vice President");
-        
 
 
-        // System.out.println("Name\t\tID Number\t\tDepartment\t\tPosition\t\tSalary");
-        // System.out.println(employee1.getName() + "\t" + employee1.getIdNumber() +
-        //  "\t\t\t" + employee1.getDepartment() + "\t\t\t" + employee1.getPosition() + "\t\t\t" + employee1.getSalary());
-        
-        // Dishes dish1 = new Dishes("Spaghetti", "Pasta with tomato sauce", 10, 500, "Main Course", 
-        // "Large", new java.util.Date(121, 0, 1), true, "Pasta, Tomato Sauce", "Italian", 15, 0, "https://www.google.com");
 
-        //  System.out.println(dish1);
+
+
+
 
 // Créer un système de gestion de plusieurs restaurants avec des menus, des commandes et des employés. Chaque restaurant 
 // pourra gérer des employés (serveurs, managers de la salle, cuisiniers) et chaque employé aura un rôle spécifique.

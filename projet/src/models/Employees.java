@@ -3,7 +3,7 @@ package models;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Employee {
+public class Employees {
     private int id;
     private String firstName;
     private String lastName;
@@ -13,7 +13,7 @@ public class Employee {
     
     private static final DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
     
-    public Employee(int id, String firstName, String lastName, String role, LocalDate hireDate, int salary) {
+    public Employees(int id, String firstName, String lastName, String role, LocalDate hireDate, int salary) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,7 +30,7 @@ public class Employee {
     }
     
     // Parse an employee from a file line.
-    public static Employee fromFileString(String line) {
+    public static Employees fromFileString(String line) {
         String data = line.substring("Employee:".length());
         String[] parts = data.split("\\|");
         int id = Integer.parseInt(parts[0].trim());
@@ -39,7 +39,7 @@ public class Employee {
         String role = parts[3].trim();
         LocalDate hireDate = LocalDate.parse(parts[4].trim(), dtf);
         int salary = Integer.parseInt(parts[5].trim());
-        return new Employee(id, firstName, lastName, role, hireDate, salary);
+        return new Employees(id, firstName, lastName, role, hireDate, salary);
     }
     
     public int getSalary() {

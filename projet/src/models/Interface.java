@@ -1,4 +1,6 @@
 package models;
+
+import java.io.File;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -27,8 +29,8 @@ public class Interface {
         menuOptions.put(5, "Display employees of a restaurant");
         menuOptions.put(6, "Take an order for a restaurant");
         menuOptions.put(7, "Display all orders of a restaurant");
-        menuOptions.put(8, "Save orders of a restaurant");
-        menuOptions.put(9, "Load orders of a restaurant");
+        menuOptions.put(8, "Save restaurant data");
+        menuOptions.put(9, "Load restaurant data");
         menuOptions.put(10, "Quit");
 
         Map<Integer, Runnable> actions = new HashMap<>();
@@ -39,8 +41,8 @@ public class Interface {
         actions.put(5, this::displayEmployees);
         actions.put(6, () -> takeOrder(scanner));
         actions.put(7, this::displayOrders);
-        actions.put(8, () -> saveOrders(scanner));
-        actions.put(9, () -> loadOrders(scanner));
+        actions.put(8, () -> saveRestaurant(scanner));
+        actions.put(9, () -> loadRestaurant(scanner));
         actions.put(10, () -> System.out.println("Exiting..."));
 
         int choice = 0;
@@ -69,18 +71,31 @@ public class Interface {
     }
 
     private void addRestaurant(Scanner scanner) {
-        System.out.println("Add a new restaurant:");
-        System.out.print("Enter restaurant id: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Enter restaurant name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter restaurant address: ");
-        String address = scanner.nextLine();
-        Menus newMenu = new Menus(id, name + " Menu", LocalDate.now(), "General");
-        restaurant = new Restaurant(id, name, address, newMenu);
-        System.out.println("Restaurant created: " + restaurant);
+    System.out.println("Add a new restaurant:");
+    System.out.print("Enter restaurant id: ");
+    int id = scanner.nextInt();
+    scanner.nextLine();
+    System.out.print("Enter restaurant name: ");
+    String name = scanner.nextLine();
+    System.out.print("Enter restaurant address: ");
+    String address = scanner.nextLine();
+    
+    Menus newMenu = new Menus(id, name + " Menu", LocalDate.now(), "General");
+    
+    restaurant = new Restaurant(id, name, address, newMenu);
+    System.out.println("Restaurant created: " + restaurant);
+    
+    databases.dbRestaurant db = new databases.dbRestaurant();
+    db.create(restaurant);
+    
+    String filename = "/Restaurants/restaurant_" + restaurant.getId() + ".txt";
+    File file = new File(filename);
+    if (file.exists()) {
+        System.out.println("File created successfully: " + file.getAbsolutePath());
+    } else {
+        System.out.println("File not created!");
     }
+}
 
     private void addEmployee(Scanner scanner) {
         System.out.println("Add an employee:");
@@ -108,6 +123,7 @@ public class Interface {
         System.out.print("Enter dish price: ");
         int price = scanner.nextInt();
         scanner.nextLine();
+        // For full details, you could prompt for more attributes.
         Dishes dish = new Dishes(dishName, price);
         restaurant.getMenu().addDish(dish);
         System.out.println("Dish added: " + dish);
@@ -164,18 +180,23 @@ public class Interface {
         restaurant.displayOrders();
     }
 
-    private void saveOrders(Scanner scanner) {
-        System.out.print("Enter file path to save orders: ");
+    private void saveRestaurant(Scanner scanner) {
+        System.out.print("Enter file path to save restaurant data: ");
         String path = scanner.nextLine();
-        restaurant.saveOrders(path);
+        restaurant.saveToFile(path);
     }
 
-    private void loadOrders(Scanner scanner) {
-        System.out.print("Enter file path to load orders: ");
+    private void loadRestaurant(Scanner scanner) {
+        System.out.print("Enter file path to load restaurant data: ");
         String path = scanner.nextLine();
-        restaurant.loadOrders(path);
+        Restaurant loaded = Restaurant.loadFromFile(path);
+        if (loaded != null) {
+            restaurant = loaded;
+            System.out.println("Restaurant loaded: " + restaurant);
+        }
     }
 }
+
 
 
 // import java.time.LocalDate;

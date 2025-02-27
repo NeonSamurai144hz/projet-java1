@@ -1,10 +1,11 @@
 package databases;
 
-import models.Restaurant;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import models.Menus;
+import models.Restaurant;
 
 public class dbRestaurant {
     private List<Restaurant> restaurants;
@@ -14,8 +15,11 @@ public class dbRestaurant {
     }
 
     public void create(Restaurant restaurant) {
-        String filename = "./Restaurants/restaurant_" + restaurant.getId() + ".txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+        String filename = "/Restaurants/restaurant_" + restaurant.getId() + ".txt";
+        File file = new File(filename);
+        file.getParentFile().mkdirs();
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(restaurant.getId() + "\n");
             writer.write(restaurant.getName() + "\n");
             writer.write(restaurant.getAddress() + "\n");
@@ -26,7 +30,7 @@ public class dbRestaurant {
     }
 
     public List<Restaurant> loadAll() {
-        File folder = new File("./Restaurants/");
+        File folder = new File("./Restaurants");
         File[] files = folder.listFiles();
         List<Restaurant> list = new ArrayList<>();
 
@@ -45,7 +49,8 @@ public class dbRestaurant {
             int id = Integer.parseInt(reader.readLine());
             String name = reader.readLine();
             String address = reader.readLine();
-            return new Restaurant(id, name, address);
+            Menus defaultMenu = new Menus(id, name + " Menu", LocalDate.now(), "Default");
+            return new Restaurant(id, name, address, defaultMenu);
         } catch (IOException e) {
             System.out.println("Error reading file: " + file.getName());
             return null;

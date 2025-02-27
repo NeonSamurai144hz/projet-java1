@@ -1,7 +1,6 @@
 package models;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +20,27 @@ public class Restaurant {
         this.employees = new ArrayList<>();
         this.orders = new ArrayList<>();
     }
+
+        // getters for id, name and address
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
     
-    // Employees methods
+    public String getAddress() {
+        return address;
+    }
+
+
+    // Employee methods
     public void addEmployee(Employees e) {
         employees.add(e);
     }
     
     public boolean removeEmployee(int employeeId) {
-        // Here, we assume employee IDs are unique.
         return employees.removeIf(e -> e.toFileString().contains("Employee:" + employeeId + "|"));
     }
     
@@ -53,7 +65,6 @@ public class Restaurant {
         return menu;
     }
     
-    // Save all restaurant data into one file.
     public void saveToFile(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             // Header
@@ -63,9 +74,7 @@ public class Restaurant {
             writer.newLine();
             writer.write("Address:" + address);
             writer.newLine();
-            // Menu section
             writer.write(menu.toFileString());
-            // Employees section
             writer.write("---Employees---");
             writer.newLine();
             writer.write("EmployeeCount:" + employees.size());
@@ -74,7 +83,6 @@ public class Restaurant {
                 writer.write(e.toFileString());
                 writer.newLine();
             }
-            // Orders section
             writer.write("---Orders---");
             writer.newLine();
             writer.write("OrderCount:" + orders.size());
@@ -89,7 +97,7 @@ public class Restaurant {
         }
     }
     
-    // Load restaurant data from file.
+    //load
     public static Restaurant loadFromFile(String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
@@ -120,14 +128,13 @@ public class Restaurant {
                     sectionLines.clear();
                 } else if (line.equals("---Employees---")) {
                     if (currentSection.equals("MENU")) {
-                        menu = Menu.fromFileString(sectionLines);
+                        menu = Menus.fromFileString(sectionLines);
                     }
                     currentSection = "EMPLOYEES";
                     sectionLines.clear();
                 } else if (line.equals("---Orders---")) {
                     if (currentSection.equals("EMPLOYEES")) {
                         if (!sectionLines.isEmpty()) {
-                            // First line contains count; then employee lines
                             for (int i = 1; i < sectionLines.size(); i++) {
                                 employees.add(Employees.fromFileString(sectionLines.get(i)));
                             }
@@ -160,10 +167,6 @@ public class Restaurant {
             System.err.println("Error loading restaurant: " + e.getMessage());
             return null;
         }
-    }
-    
-    public int getId() {
-        return id;
     }
     
     @Override
