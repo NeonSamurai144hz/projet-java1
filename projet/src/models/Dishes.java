@@ -41,7 +41,6 @@ public class Dishes {
         this.id = count;
     }
 
-    // Minimal constructor (for quick creation & when parsing orders)
     public Dishes(String name, int price) {
         this.name = name;
         this.description = "";
@@ -60,14 +59,13 @@ public class Dishes {
         this.id = count;
     }
 
-    // Getters (only a few shown for brevity)
+    // Getters 
     public String getName() {
         return name;
     }
     public int getPrice() {
         return price;
     }
-    // (Other getters are similar.)
 
     @Override
     public String toString() {
@@ -77,19 +75,15 @@ public class Dishes {
                "\nCuisine Type: " + typeDish + "\nPreparation Time: " + preparationTime + 
                "\nSpecial Price: " + specialPrice + "\nImage URL: " + imageURL;
     }
-    
-    // Converts the dish to a single-line string for file saving.
-    // Format: Dish:<id>|<name>|<description>|<price>|<calories>|<category>|<portionSize>|<addDate>|<availability>|<ingredients>|<typeDish>|<preparationTime>|<specialPrice>|<imageURL>
+
     public String toFileString() {
         String ingStr = String.join(",", ingredients);
         return String.format("Dish:%d|%s|%s|%d|%d|%s|%s|%s|%b|%s|%s|%d|%d|%s",
                 id, name, description, price, calories, category, portionSize,
                 addDate.toString(), availability, ingStr, typeDish, preparationTime, specialPrice, imageURL);
     }
-    
-    // Rebuilds a dish from its file string.
+
     public static Dishes fromFileString(String line) {
-        // Remove "Dish:" prefix.
         String data = line.substring("Dish:".length());
         String[] parts = data.split("\\|");
         int id = Integer.parseInt(parts[0].trim());
@@ -106,9 +100,8 @@ public class Dishes {
         int preparationTime = Integer.parseInt(parts[11].trim());
         int specialPrice = Integer.parseInt(parts[12].trim());
         String imageURL = parts[13].trim();
-        // Create dish; note: we set the id manually (you might adjust count accordingly if needed)
         Dishes dish = new Dishes(name, description, price, calories, category, portionSize, addDate, availability, ingredients, typeDish, preparationTime, specialPrice, imageURL);
-        dish.id = id; // override auto-generated id
+        dish.id = id;
         return dish;
     }
 }

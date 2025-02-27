@@ -71,31 +71,31 @@ public class Interface {
     }
 
     private void addRestaurant(Scanner scanner) {
-    System.out.println("Add a new restaurant:");
-    System.out.print("Enter restaurant id: ");
-    int id = scanner.nextInt();
-    scanner.nextLine();
-    System.out.print("Enter restaurant name: ");
-    String name = scanner.nextLine();
-    System.out.print("Enter restaurant address: ");
-    String address = scanner.nextLine();
-    
-    Menus newMenu = new Menus(id, name + " Menu", LocalDate.now(), "General");
-    
-    restaurant = new Restaurant(id, name, address, newMenu);
-    System.out.println("Restaurant created: " + restaurant);
-    
-    databases.dbRestaurant db = new databases.dbRestaurant();
-    db.create(restaurant);
-    
-    String filename = "/Restaurants/restaurant_" + restaurant.getId() + ".txt";
-    File file = new File(filename);
-    if (file.exists()) {
-        System.out.println("File created successfully: " + file.getAbsolutePath());
-    } else {
-        System.out.println("File not created!");
+        System.out.println("Add a new restaurant:");
+        System.out.print("Enter restaurant id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter restaurant name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter restaurant address: ");
+        String address = scanner.nextLine();
+        
+        Menus newMenu = new Menus(id, name + " Menu", LocalDate.now(), "General");
+        
+        restaurant = new Restaurant(id, name, address, newMenu);
+        System.out.println("Restaurant created: " + restaurant);
+        
+        databases.dbRestaurant db = new databases.dbRestaurant();
+        db.create(restaurant);
+        
+        String filename = "/Restaurants/restaurant_" + restaurant.getId() + ".txt";
+        File file = new File(filename);
+        if (file.exists()) {
+            System.out.println("File created successfully: " + file.getAbsolutePath());
+        } else {
+            System.out.println("File not created!");
+        }
     }
-}
 
     private void addEmployee(Scanner scanner) {
         System.out.println("Add an employee:");
@@ -123,7 +123,6 @@ public class Interface {
         System.out.print("Enter dish price: ");
         int price = scanner.nextInt();
         scanner.nextLine();
-        // For full details, you could prompt for more attributes.
         Dishes dish = new Dishes(dishName, price);
         restaurant.getMenu().addDish(dish);
         System.out.println("Dish added: " + dish);

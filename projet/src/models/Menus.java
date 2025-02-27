@@ -43,7 +43,6 @@ public class Menus {
         return null;
     }
 
-    // Format: ---Menu--- then DishCount:<n> then each dish on a line.
     public String toFileString() {
         StringBuilder sb = new StringBuilder();
         sb.append("---Menu---\n");
@@ -54,7 +53,6 @@ public class Menus {
         return sb.toString();
     }
 
-    // Load from a list of lines (assumes lines for the menu section only)
     public static Menus fromFileString(List<String> lines) {
         if (lines.size() < 2) return new Menus(0, "", LocalDate.now(), "");
         int count = Integer.parseInt(lines.get(1).split(":")[1].trim());

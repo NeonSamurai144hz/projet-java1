@@ -21,15 +21,12 @@ public class Employees {
         this.hireDate = hireDate;
         this.salary = salary;
     }
-    
-    // Save as a single line string.
-    // Format: Employee:<id>|<firstName>|<lastName>|<role>|<hireDate>|<salary>
+
     public String toFileString() {
         return String.format("Employee:%d|%s|%s|%s|%s|%d",
                 id, firstName, lastName, role, hireDate.format(dtf), salary);
     }
-    
-    // Parse an employee from a file line.
+
     public static Employees fromFileString(String line) {
         String data = line.substring("Employee:".length());
         String[] parts = data.split("\\|");

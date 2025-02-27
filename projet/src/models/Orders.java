@@ -19,7 +19,6 @@ public class Orders {
         calculateTotal();
     }
     
-    // Recalculate total price
     public int calculateTotal() {
         total = 0;
         for (Dishes dish : dishes) {
@@ -27,8 +26,7 @@ public class Orders {
         }
         return total;
     }
-    
-    // Format: Order:<orderNumber>|<dishName>,<dishPrice>;<dishName>,<dishPrice>;...|<total>
+
     public String toFileString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Order:").append(orderNumber).append("|");
@@ -36,14 +34,13 @@ public class Orders {
             sb.append(dish.getName()).append(",").append(dish.getPrice()).append(";");
         }
         if (!dishes.isEmpty()) {
-            sb.deleteCharAt(sb.length() - 1); // remove trailing semicolon
+            sb.deleteCharAt(sb.length() - 1);
         }
         sb.append("|").append(total);
         return sb.toString();
     }
     
     public static Orders fromFileString(String line) {
-        // Example: Order:1|Pizza,12;Salad,8|20
         String data = line.substring("Order:".length());
         String[] parts = data.split("\\|");
         int orderNumber = Integer.parseInt(parts[0].trim());
